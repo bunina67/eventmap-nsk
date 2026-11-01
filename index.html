@@ -11,401 +11,391 @@
 
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      color: #202238;
+      color: #20243a;
       background: #f5f6fb;
     }
-
     header {
-      height: 72px;
-      background: white;
+      padding: 22px 5%;
+      background: #fff;
+      border-bottom: 1px solid #e6e8f0;
+    }
+    header h1 { margin: 0 0 7px; color: #6652d9; }
+    header p { margin: 0; color: #687087; }
+    .toolbar {
       display: flex;
-      align-items: center;
-      gap: 22px;
-      padding: 0 24px;
-      border-bottom: 1px solid #e9e9f2;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 18px 5%;
+      background: #fff;
     }
-
-    .logo {
-      color: #7047eb;
-      font-size: 23px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .city { color: #77788b; }
-
-    #search {
-      margin-left: auto;
-      width: min(360px, 45%);
-      padding: 12px 16px;
-      border: 1px solid #dedfeb;
-      border-radius: 22px;
-      font-size: 14px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 370px minmax(0, 1fr);
-      height: calc(100vh - 72px);
-      min-height: 500px;
-    }
-
-    aside {
-      overflow-y: auto;
-      padding: 20px;
+    input, select {
+      min-width: 180px;
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #d9ddec;
+      border-radius: 10px;
+      font-size: 15px;
       background: white;
-      border-right: 1px solid #e9e9f2;
     }
-
-    h1 { font-size: 23px; margin: 0 0 8px; }
-    h2 { font-size: 16px; margin-top: 24px; }
-    .muted { color: #77788b; font-size: 13px; }
-
-    .chips {
+    .categories {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 16px;
+      padding: 0 5% 18px;
+      background: #fff;
     }
-
-    button, select {
+    .categories button {
+      border: 1px solid #dedaf8;
+      background: #fff;
+      color: #5c4bc6;
+      border-radius: 20px;
+      padding: 9px 14px;
       cursor: pointer;
-      border: 1px solid #e0deed;
-      border-radius: 12px;
-      background: white;
-      padding: 10px 12px;
-      color: #34344b;
     }
-
-    button.active, button:hover {
-      background: #eee8ff;
-      border-color: #b9a6ff;
-      color: #6038d5;
+    .categories button.active {
+      background: #6652d9;
+      color: white;
     }
-
-    select { width: 100%; margin-top: 8px; }
-
-    #eventList {
+    main {
       display: grid;
-      gap: 12px;
-      margin-top: 14px;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(350px, 1.2fr);
+      gap: 20px;
+      padding: 20px 5%;
     }
-
-    .event-card {
-      padding: 15px;
-      border: 1px solid #e8e7f0;
-      border-radius: 16px;
+    #events { display: grid; gap: 14px; align-content: start; }
+    .event {
       background: white;
+      padding: 17px;
+      border: 1px solid #e7e8f0;
+      border-radius: 16px;
+      box-shadow: 0 3px 12px #2222;
     }
-
-    .event-card h3 {
-      font-size: 16px;
-      margin: 9px 0;
-    }
-
-    .event-card p {
-      color: #77788b;
-      font-size: 13px;
-      line-height: 1.5;
-      margin: 5px 0;
-    }
-
     .tag {
       display: inline-block;
-      background: #f0ebff;
-      color: #6941df;
+      background: #eeeaff;
+      color: #5e4ac8;
+      border-radius: 20px;
       padding: 5px 9px;
-      border-radius: 9px;
       font-size: 12px;
     }
-
-    .price {
-      font-weight: bold;
-      margin-top: 12px;
-    }
-
-    .ticket {
+    .event h2 { font-size: 19px; margin: 12px 0 8px; }
+    .event p { margin: 7px 0; line-height: 1.45; color: #596176; }
+    .price { font-weight: bold; color: #272b42 !important; }
+    .actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .actions button, .actions a {
       display: inline-block;
-      margin-top: 10px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: #7047eb;
-      color: white;
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 13px;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 14px;
+      cursor: pointer;
     }
-
-    #map { width: 100%; height: 100%; }
-
-    .leaflet-popup-content { line-height: 1.5; }
-
-    @media (max-width: 760px) {
-      header { padding: 12px; height: auto; flex-wrap: wrap; }
-      .city { display: none; }
-      #search { width: 100%; margin: 0; }
-      .layout {
-        height: auto;
-        min-height: 0;
-        grid-template-columns: 1fr;
-      }
-      aside { overflow: visible; }
-      #map { height: 55vh; min-height: 350px; }
+    .details { background: #eeeaff; color: #5e4ac8; }
+    .tickets { background: #6652d9; color: white; }
+    #map {
+      height: calc(100vh - 185px);
+      min-height: 500px;
+      position: sticky;
+      top: 15px;
+      border-radius: 16px;
+      z-index: 1;
+    }
+    .note {
+      padding: 0 5% 22px;
+      color: #72798c;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    @media (max-width: 800px) {
+      main { grid-template-columns: 1fr; }
+      #map { position: static; height: 400px; min-height: 350px; }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="logo">📍 EventMap</div>
-    <div class="city">Новосибирск</div>
-    <input id="search" type="search"
-      placeholder="Найти мероприятие или место...">
-  </header>
+<header>
+  <h1>📍 EventMap</h1>
+  <p>Карта мероприятий Новосибирска — найди событие для себя</p>
+</header>
 
-  <main class="layout">
-    <aside>
-      <h1>Куда пойдём?</h1>
-      <div class="muted">Мероприятия твоего города в одном месте</div>
+<section class="toolbar">
+  <input id="search" type="search"
+    placeholder="Поиск по названию или месту...">
+  <select id="dateFilter" aria-label="Фильтр по дате">
+    <option value="all">Все даты</option>
+    <option value="upcoming">Предстоящие</option>
+  </select>
+</section>
 
-      <div class="chips" id="categories">
-        <button class="active" data-category="Все">Все</button>
-        <button data-category="Концерт">🎵 Концерты</button>
-        <button data-category="Выставка">🎨 Выставки</button>
-        <button data-category="Спорт">⚽ Спорт</button>
-        <button data-category="Вечеринка">🎉 Вечеринки</button>
-        <button data-category="Квартирник">🎸 Квартирники</button>
-      </div>
+<nav class="categories" id="categories">
+  <button class="active" data-category="Все">Все</button>
+  <button data-category="Концерт">Концерты</button>
+  <button data-category="Театр">Театр</button>
+  <button data-category="Стендап">Стендап</button>
+  <button data-category="Фестиваль">Фестивали</button>
+</nav>
 
-      <h2>Когда?</h2>
-      <select id="timeFilter">
-        <option value="all">В любое время</option>
-        <option value="today">Сегодня</option>
-        <option value="weekend">В эти выходные</option>
-      </select>
+<main>
+  <section>
+    <h2>Афиша событий</h2>
+    <div id="count"></div>
+    <div id="events"></div>
+  </section>
+  <div id="map" aria-label="Карта мероприятий Новосибирска"></div>
+</main>
 
-      <h2>События на карте</h2>
-      <div id="count" class="muted"></div>
-      <div id="eventList"></div>
-    </aside>
+<div class="note">
+  Данные собраны из опубликованных афиш. Перед посещением проверь дату,
+  время, адрес, актуальную стоимость и наличие билетов на сайте организатора.
+  Метки на карте показывают площадки мероприятий.
+</div>
 
-    <section aria-label="Карта мероприятий Новосибирска">
-      <div id="map"></div>
-    </section>
-  </main>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    const events = [
-      {
-        id: 1,
-        title: "Концерт молодых исполнителей",
-        category: "Концерт",
-        date: nextDate(1, 19),
-        address: "Михайловская набережная",
-        price: 500,
-        coords: [55.0302, 82.9204],
-        url: ""
-      },
-      {
-        id: 2,
-        title: "Выставка современного искусства",
-        category: "Выставка",
-        date: nextDate(2, 12),
-        address: "Центр Новосибирска",
-        price: 300,
-        coords: [55.0415, 82.9234],
-        url: ""
-      },
-      {
-        id: 3,
-        title: "Спортивная встреча в парке",
-        category: "Спорт",
-        date: nextDate(3, 10),
-        address: "Центральный парк",
-        price: 0,
-        coords: [55.0380, 82.9270],
-        url: ""
-      },
-      {
-        id: 4,
-        title: "Вечер музыки и общения",
-        category: "Вечеринка",
-        date: nextDate(4, 20),
-        address: "Октябрьский район",
-        price: 400,
-        coords: [55.0180, 82.9500],
-        url: ""
-      },
-      {
-        id: 5,
-        title: "Акустический квартирник",
-        category: "Квартирник",
-        date: nextDate(5, 18),
-        address: "Район станции метро Площадь Ленина",
-        price: 250,
-        coords: [55.0300, 82.9200],
-        url: ""
-      }
-    ];
-
-    // Демоданные: даты назначаются относительно текущей недели.
-    function nextDate(daysAhead, hour) {
-      const d = new Date();
-      d.setDate(d.getDate() + daysAhead);
-      d.setHours(hour, 0, 0, 0);
-      return d;
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Координаты площадок ориентировочные.
+  // Ссылки ведут на страницы афиш, где можно проверить билеты.
+  const events = [
+    {
+      id: 1,
+      title: "Балет «Ромео и Джульетта»",
+      category: "Театр",
+      date: "2026-11-05T19:00:00",
+      place: "НОВАТ",
+      address: "Красный проспект, 36",
+      price: "От 2 000 ₽",
+      lat: 55.0307, lon: 82.9205,
+      url: "https://live.mts.ru/novosibirsk/november"
+    },
+    {
+      id: 2,
+      title: "Вадим Самойлов — «Агата Кристи»",
+      category: "Концерт",
+      date: "2026-11-04T19:00:00",
+      place: "Локомотив-Арена",
+      address: "Ипподромская улица, 18",
+      price: "От 2 500 ₽",
+      lat: 55.0437, lon: 82.9430,
+      url: "https://live.mts.ru/novosibirsk/venues/arena/lokomotiv-arena"
+    },
+    {
+      id: 3,
+      title: "Алексей Чумаков",
+      category: "Концерт",
+      date: "2026-11-07T19:00:00",
+      place: "Локомотив-Арена",
+      address: "Ипподромская улица, 18",
+      price: "От 2 500 ₽",
+      lat: 55.0437, lon: 82.9430,
+      url: "https://live.mts.ru/novosibirsk/venues/arena/lokomotiv-arena"
+    },
+    {
+      id: 4,
+      title: "Dead Blonde",
+      category: "Концерт",
+      date: "2026-11-15T18:00:00",
+      place: "Лофт-парк «Подземка»",
+      address: "Красный проспект, 161",
+      price: "От 3 400 ₽",
+      lat: 55.0604, lon: 82.9117,
+      url: "https://afisha.yandex.ru/novosibirsk/concert/nov"
+    },
+    {
+      id: 5,
+      title: "Аффинаж",
+      category: "Концерт",
+      date: "2026-11-17T20:00:00",
+      place: "Лофт-парк «Подземка»",
+      address: "Красный проспект, 161",
+      price: "От 2 000 ₽",
+      lat: 55.0604, lon: 82.9117,
+      url: "https://afisha.yandex.ru/novosibirsk/concert/nov"
+    },
+    {
+      id: 6,
+      title: "Иван Абрамов — «Всё из детства»",
+      category: "Стендап",
+      date: "2026-11-14T19:00:00",
+      place: "Дом учёных",
+      address: "Морской проспект, 23",
+      price: "От 4 000 ₽",
+      lat: 54.8467, lon: 83.1000,
+      url: "https://live.mts.ru/novosibirsk/collections/standup"
+    },
+    {
+      id: 7,
+      title: "Виктория Складчикова",
+      category: "Стендап",
+      date: "2026-11-20T19:00:00",
+      place: "Локомотив-Арена",
+      address: "Ипподромская улица, 18",
+      price: "От 2 500 ₽",
+      lat: 55.0437, lon: 82.9430,
+      url: "https://live.mts.ru/novosibirsk/venues/arena/lokomotiv-arena"
+    },
+    {
+      id: 8,
+      title: "Сергей Лазарев — «Шоумен»",
+      category: "Концерт",
+      date: "2026-11-25T19:00:00",
+      place: "Сибирь-Арена",
+      address: "Улица Немировича-Данченко, 160",
+      price: "От 1 900 ₽",
+      lat: 54.9824, lon: 82.8963,
+      url: "https://afisha.yandex.ru/novosibirsk/schedule_concert/na-noyabr/"
+    },
+    {
+      id: 9,
+      title: "Фестиваль «Дискач 90-х»",
+      category: "Фестиваль",
+      date: "2026-11-29T19:00:00",
+      place: "Локомотив-Арена",
+      address: "Ипподромская улица, 18",
+      price: "От 2 200 ₽",
+      lat: 55.0437, lon: 82.9430,
+      url: "https://live.mts.ru/novosibirsk/venues/arena/lokomotiv-arena"
+    },
+    {
+      id: 10,
+      title: "Международный фестиваль «Книжная Сибирь»",
+      category: "Фестиваль",
+      date: "2026-11-20T10:00:00",
+      place: "ГНТБ СО РАН",
+      address: "Улица Восход, 15",
+      price: "Бесплатно",
+      lat: 55.0086, lon: 82.9385,
+      url: "https://calendar.welcome-novosibirsk.ru/"
     }
+  ];
 
-    const map = L.map("map").setView([55.0302, 82.9204], 12);
+  const map = L.map("map").setView([55.0302, 82.9204], 11);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19
-    }).addTo(map);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
 
-    const colors = {
-      "Концерт": "#8757ed",
-      "Выставка": "#e59b35",
-      "Спорт": "#269b73",
-      "Вечеринка": "#e45f91",
-      "Квартирник": "#4286d9"
-    };
+  const markers = new Map();
+  let selectedCategory = "Все";
 
-    const markerLayer = L.layerGroup().addTo(map);
-    let selectedCategory = "Все";
+  function formatDate(value) {
+    return new Intl.DateTimeFormat("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date(value));
+  }
 
-    const search = document.getElementById("search");
-    const timeFilter = document.getElementById("timeFilter");
-    const eventList = document.getElementById("eventList");
+  function isUpcoming(event) {
+    return new Date(event.date).getTime() >= Date.now();
+  }
 
-    function formatDate(date) {
-      return date.toLocaleString("ru-RU", {
-        day: "numeric",
-        month: "long",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function safeTicketUrl(value) {
+    try {
+      const url = new URL(value);
+      return ["https:", "http:"].includes(url.protocol) ? url.href : "#";
+    } catch {
+      return "#";
     }
+  }
 
-    function safeText(value) {
-      return String(value).replace(/[&<>"']/g, ch => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[ch]);
+  function showEvent(id) {
+    const event = events.find(item => item.id === id);
+    const marker = markers.get(id);
+    if (event && marker) {
+      map.setView([event.lat, event.lon], 15);
+      marker.openPopup();
     }
+  }
 
-    function filteredEvents() {
-      const q = search.value.trim().toLowerCase();
-      const now = new Date();
+  function render() {
+    const search = document.getElementById("search").value
+      .trim().toLowerCase();
+    const dateFilter = document.getElementById("dateFilter").value;
 
-      return events.filter(event => {
-        const matchesCategory =
-          selectedCategory === "Все" ||
-          event.category === selectedCategory;
-
-        const matchesSearch =
-          (event.title + " " + event.address + " " + event.category)
-            .toLowerCase().includes(q);
-
-        let matchesTime = true;
-
-        if (timeFilter.value === "today") {
-          matchesTime = event.date.toDateString() === now.toDateString();
-        }
-
-        if (timeFilter.value === "weekend") {
-          const day = now.getDay();
-          const daysToSaturday = (6 - day + 7) % 7;
-          const saturday = new Date(now);
-          saturday.setDate(now.getDate() + daysToSaturday);
-          saturday.setHours(0, 0, 0, 0);
-
-          const mondayAfter = new Date(saturday);
-          mondayAfter.setDate(saturday.getDate() + 2);
-
-          matchesTime = event.date >= saturday &&
-                        event.date < mondayAfter;
-        }
-
-        return matchesCategory && matchesSearch && matchesTime;
-      });
-    }
-
-    function render() {
-      const visible = filteredEvents();
-      eventList.replaceChildren();
-      markerLayer.clearLayers();
-
-      document.getElementById("count").textContent =
-        "Найдено мероприятий: " + visible.length;
-
-      visible.forEach(event => {
-        const color = colors[event.category] || "#7047eb";
-
-        const marker = L.circleMarker(event.coords, {
-          radius: 9,
-          color: "#ffffff",
-          weight: 2,
-          fillColor: color,
-          fillOpacity: 1
-        }).addTo(markerLayer);
-
-        marker.bindPopup(
-          "<strong>" + safeText(event.title) + "</strong><br>" +
-          safeText(formatDate(event.date)) + "<br>" +
-          safeText(event.address) + "<br>" +
-          (event.price === 0 ? "Бесплатно" : "От " + event.price + " ₽")
-        );
-
-        const card = document.createElement("article");
-        card.className = "event-card";
-
-        card.innerHTML = `
-          <span class="tag">${safeText(event.category)}</span>
-          <h3>${safeText(event.title)}</h3>
-          <p>📅 ${safeText(formatDate(event.date))}</p>
-          <p>📍 ${safeText(event.address)}</p>
-          <div class="price">
-            ${event.price === 0 ? "Бесплатно" : "От " + event.price + " ₽"}
-          </div>
-          ${event.url
-            ? `<a class="ticket" href="${safeText(event.url)}"
-                 target="_blank" rel="noopener noreferrer">Подробнее</a>`
-            : `<p>Ссылка на билеты пока не добавлена</p>`}
-        `;
-
-        card.addEventListener("click", () => {
-          map.setView(event.coords, 15);
-          marker.openPopup();
-        });
-
-        eventList.appendChild(card);
-      });
-    }
-
-    document.querySelectorAll("[data-category]").forEach(button => {
-      button.addEventListener("click", () => {
-        selectedCategory = button.dataset.category;
-
-        document.querySelectorAll("[data-category]").forEach(b => {
-          b.classList.toggle("active", b === button);
-        });
-
-        render();
-      });
+    const filtered = events.filter(event => {
+      const text = `${event.title} ${event.place} ${event.address}`.toLowerCase();
+      const matchesSearch = text.includes(search);
+      const matchesCategory =
+        selectedCategory === "Все" || event.category === selectedCategory;
+      const matchesDate = dateFilter !== "upcoming" || isUpcoming(event);
+      return matchesSearch && matchesCategory && matchesDate;
     });
 
-    search.addEventListener("input", render);
-    timeFilter.addEventListener("change", render);
+    document.getElementById("count").textContent =
+      `Найдено мероприятий: ${filtered.length}`;
 
-    render();
-  </script>
+    document.getElementById("events").innerHTML = filtered.map(event => `
+      <article class="event">
+        <span class="tag">${escapeHtml(event.category)}</span>
+        <h2>${escapeHtml(event.title)}</h2>
+        <p>📅 ${escapeHtml(formatDate(event.date))}</p>
+        <p>📍 ${escapeHtml(event.place)}</p>
+        <p>${escapeHtml(event.address)}</p>
+        <p class="price">${escapeHtml(event.price)}</p>
+        <div class="actions">
+          <button class="details" onclick="showEvent(${event.id})">
+            На карте
+          </button>
+          <a class="tickets"
+             href="${escapeHtml(safeTicketUrl(event.url))}"
+             target="_blank" rel="noopener noreferrer">
+            Афиша и билеты ↗
+          </a>
+        </div>
+      </article>
+    `).join("");
+
+    markers.forEach((marker, id) => {
+      if (filtered.some(event => event.id === id)) {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+      } else {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      }
+    });
+  }
+
+  events.forEach(event => {
+    const marker = L.marker([event.lat, event.lon]).bindPopup(`
+      <strong>${escapeHtml(event.title)}</strong><br>
+      ${escapeHtml(formatDate(event.date))}<br>
+      ${escapeHtml(event.place)}<br>
+      <a href="${escapeHtml(safeTicketUrl(event.url))}"
+         target="_blank" rel="noopener noreferrer">Афиша и билеты</a>
+    `);
+    markers.set(event.id, marker);
+    marker.addTo(map);
+  });
+
+  document.getElementById("search").addEventListener("input", render);
+  document.getElementById("dateFilter").addEventListener("change", render);
+
+  document.querySelectorAll("#categories button").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedCategory = button.dataset.category;
+      document.querySelectorAll("#categories button")
+        .forEach(item => item.classList.toggle("active", item === button));
+      render();
+    });
+  });
+
+  render();
+</script>
 </body>
 </html>
